@@ -1,0 +1,26 @@
+HOMEWORK 1 - INSTRUCCIONES
+
+1. construir una matriz de 5*5 con números decimales aleatorios que vayan del rango 160 a 200. Está matriz contendrá los pesos (en libras) de varias personas. Asigne un nombre descriptivo a esta matriz.
+2. Asigne los meses de enero a mayo como nombre a cada columna
+3. Asigne 5 nombres de personas, que sean aleatorios y que se utilicen como nombre de fila
+4. Construya un vector que contenga el peso promedio de cada persona durante los meses de enero a mayo.(Investigue una función similar a rowSums pero para promediar)
+5. Construya un vector que contenga el peso promedio en cada mes para todas las personas. (Investigue una función similar a colSums pero para promediar)
+6. Utilice cbind y rbind para agregar la columna y fila promedio.
+7. Por último imprima la matriz resultante.
+
+```{r}
+aleatorio <- round(runif(25, min = 160, max = 200),2)#creación de 25 números decimales aleatorios, redondeados a 2 decimales
+aleatorio #visualizar los números aleatorios creados
+matrix_pesos <- matrix(aleatorio, byrow = TRUE, ncol = 5)#creación de la matrix de 5x5 con los números decimales previamente creados
+matrix_pesos #visualizar la matriz creada
+meses <- c("Enero","Febrero","Marzo","Abril","Mayo") #vector con los meses de enero a mayo
+colnames(matrix_pesos) <- meses #Asignación de nombres de columna a la matriz, utilizando el vector meses
+nombres <- c("Luis","Fernando","Cynthia","Elizabeth","Julia") #Vector con los nombres aleatorios de 5 personas
+rownames(matrix_pesos) <- nombres #Asignación de nombres de fila a la matriz, utilizando el vector nombres
+prom_personas <- rowMeans(matrix_pesos) #Promedios de los pesos de cada persona (Promedio de filas)
+prom_meses <- colMeans(matrix_pesos) #Promedios en cada mes para todas las personas. (Promedio de columnas)
+new_matrix_pesos <- cbind(matrix_pesos,prom_personas) #Agregado de columna promedio a la matrix, creación de nueva matriz
+new_matrix_pesos <- rbind(new_matrix_pesos, prom_meses) #Agregado de fila de valores promedio a la matrix
+new_matrix_pesos #Impresión de la matriz resultante
+```
+
