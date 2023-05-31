@@ -1,0 +1,111 @@
+*** FUNCIONES EN R ***
+
+En R las funciones son un conjunto de instrucciones que convierten las entradas (inputs) en resultados (outputs) deseados. Las entradas pueden ser de caracteristicas diferentes al que se obtendrá en su salida como resultado.
+
+Las partes de una función son las siguientes:
+
+  1. Entradas o argumentos: Sirven para ingresar información necesaria para realizar el procedimiento de la función. Los argumentos pueden estar vacíos y a la espera de que el usuario ingrese valores, o pueden tener valores por defecto.Una función puede tener o no argumentos de entrada. 
+  
+  2. Cuerpo: está formado por un conjunto de instrucciones que transforman las entradas en las salidas deseadas. Si el cuerpo de la función está formado por varias instrucciones éstas deben ir entre llaves { }.
+  
+  3. Salidas: Son los resultados de la función. Toda función debe tener al menos un resultado. Si una función entrega varios tipos de objetos se acostumbra a organizarlos en una lista que puede manejar los diferentes tipos de objetos.
+  
+*** EJEMPLOS DE FUNCIONES ***
+
+Función de suma de tres funciones
+```{r}
+suma <- function(x, y, z) { #Creación de la función suma
+  resultado <- x + y + z #Se guarda el resultado de la suma de las tres variables
+  return(resultado) #Se imprime el valor almacenado por la variable resultado
+}
+
+suma(x=10, y=5, z=20) #Valores de las variables. Entrega como resultado la suma de las tres variables, dada por la función suma.
+```
+Función de identificación de número par o impar
+```{r}
+test <- function(x){
+  respuesta <- x / 2
+  if (respuesta%%2 == 0) {
+    print("El número es par")
+  }else{
+    print("El número es impar")
+  }
+}
+
+test(x=5)
+```
+*** Argumentos de una función ***
+
+Los argumentos de una función son una serie de valores (opcionales) que se pasan a la función, de modo que ciertas variables dentro de estas posean diferentes valores en cada llamada a la función. En los ejemplos planteados los argumentos de las funciones son las variales x, y y z. 
+
+*** Argumentos por valor ***
+Cuando se hace un llamado a una función, el orden en que se pasan los valores de los argumentos corresponde con la ubicación de estos en la declaración de la función. En el caso del ejemplo 1 se puede llamar a la función de la siguiente forma:x corresponde con el valor 10, y con el valor 5 y z con el valor 20. En el segundo ejemplo al llamar la función de test, x toma el valor de 14.
+```{r}
+suma(10,5,20)
+test(14)
+```
+*** FAMILIA APPLY ***
+
+La familia de funciones apply es usada para aplicar una función a cada elemento de una estructura de datos. En particular, es usada para aplicar funciones en matrices, data frames, arrays y listas.
+
+Con esta familia de funciones podemos automatizar tareas complejas usando pocas líneas de código y es una de las características distintivas de R como lenguaje de programación.
+
+La familia de funciones apply no sólo recibe datos como argumentos, también recibe funciones.
+
+*** lapply ***
+lapply se aplica sobre listas o vectores y retorna una lista. La función tiene dos argumentos:
+    x: Una lista o un vector
+    fun: La función que aplicaremos a x
+    
+USO DE lappy CON FUNCIONES
+sí es una lista:
+```{r}
+x <- list(a=1:10, beta = exp(-3:3), logico = c(TRUE,FALSE,FALSE,TRUE)) #Creación de la lista
+x
+```
+```{r}
+lapply(x, mean) #Valor promedio de cada vector dentro de la lista
+```
+sí es un vector:
+```{r}
+y <- 1:6
+lapply(y, log) #logaritmo de cada elemento del vector
+```
+*** FUNCIÓN sapply ***
+La función sapply en R es una función vectorizada de la familia de aplicaciones que permite iterar sobre una lista o vector sin la necesidad de usar el bucle for. La función sapply devuelve un vector, una matriz o un array.sapply tiene la siguiente sintaxis:
+```{r}
+sapply(X,   # Vector o lista
+       FUN, # Función a ser aplicada
+       ..., # Argumentos adicionales para ser pasados a FUN
+       simplify = TRUE,  # Si FALSE devuelve una lista. Si "array" devuelve un array si es posible
+       USE.NAMES = TRUE) # Si TRUE y si X es un vector de caracteres, usa los nombres de X
+```
+
+USO DE sapply
+```{r}
+sapply(1:4, sqrt) #Iteración de la raíz cuadrada de cada uno de los elementos del vector
+```
+```{r}
+sapply(1:10, function(i) i ^ 2) #Iteración del cuadrado de cada uno de los elementos del vector
+```
+```{r}
+sapply(1:5, function(i) i%% 2) #Iteración del modulo de cada uno de los elementos del vector 
+```
+*** FUNCION vapply ***
+Devuelve un vector con la longitud que tiene cada una de las listas introducidas como paramétros.
+```{r}
+x <- list(a=1, b=1:3, c=1:7) #Creación de la lista
+x
+```
+```{r}
+vapply(x, min, FUN.VALUE = numeric(1)) #Devuelve el valor minímo de cada vector en la lista
+```
+```{r}
+vapply(x, max, FUN.VALUE = numeric(1)) #Devuelve el valor máximo de cada vector en la lista
+```
+```{r}
+vapply(x, mean, FUN.VALUE = numeric(1)) #Devuelve el valor medio de la posición de cada vector en la lista
+```
+
+  
+  
