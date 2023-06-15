@@ -1,0 +1,112 @@
+HOMEWORK 3 - Luis Paiz -
+
+¿Cómo leer un archivo CSV desde R?
+
+Para leer archivos de texto separados por comas existe la función "read.csv()". Está función se encuentra por defecto en R. No es necesario librerías externas.
+El primer argumentos de la función "read.csv()" es la ruta al archivo que quieres importar.
+
+Sintaxis básica
+
+```{r}
+# Por defecto coma (,) como separador y punto (.) como separador decimal
+read.csv(file,                 # Nombre del archivo o ruta completa del archivo
+         header = TRUE,        # Leer el encabezado (TRUE) o no (FALSE)
+         sep = ",",            # Separador de los valores
+         quote = "\"",         # Caracter de citaciones
+         dec = ".",            # Punto decimal
+         fill = TRUE,          # Rellenar celdas vacías (TRUE) o no (FALSE)
+         comment.char = "",    # Carácter de los comentarios o cadenas vacías
+         encoding = "unknown", # Codificación del archivo
+         ...)                  # Argumentos adicionales
+
+# Por defecto punto y coma (;) como separador y coma (,) como separador decimal
+read.csv2(file, header = TRUE, sep = ";", quote = "\"", dec = ",",
+          fill = TRUE, comment.char = "", encoding = "unknown", ...)
+```
+
+
+Para cargar un archivo CSV con los argumentos predeterminados puede pasarse el archivo como cadena de caracteres a la función. La salida será de clase data.frame.
+
+read.csv("mi_archivo.csv")
+
+
+Investigar a cerca de la función select() de la paquetería de dplyr.
+
+dplyr es un paquete de R que permite realizar la preparación necesaria de los datos para su posterior análisis estadístico. Para instalar y cargar la librería al ambiente de trabajo, solo es necesario utilizar las siguientes funciones:
+
+```{r}
+install.packages('dplyr')
+library(dplyr)
+```
+
+Función select():
+Permite seleccionar o dejar seleccionar columnas específicias de acuerdo a sus nombres en el orden en el que sean expresados los argumentos de la función inmediatamente siguientes al data frame objetivo que es expreado como primer argumentos. 
+Ejemplo:
+```{r}
+library(dplyr)
+select(iris, Species, Sepal.Length)
+```
+
+También es posible seleccionar todas las columnas excepto las que sean especificadas agregando un - en las variables que se desean excluir. Por ejemplo:
+ 
+```{r}
+library(dplyr)
+select(iris, -Species, -Sepal.Length)
+```
+
+***Resolución de la tarea 3***
+
+```{r}
+dataset_results <- read.csv("C:/Users/luisf/Desktop/TAREA_3/primary_results.csv")
+dataset_results
+```
+
+1. Filtrar todos los votos del estado de Florida
+```{r}
+library(dplyr)
+dataset_results %>%
+  filter(county == "Florida")
+```
+
+2.1 Filtrar votos para los candidatos Hillary Clinton o Donald Trump
+```{r}
+dataset_results %>%
+  filter(candidate == "Hillary Clinton" | candidate == "Donald Trump")
+```
+2.2 Filtrar votos para el partido Demócrata y el condado Shelby
+```{r}
+dataset_results %>%
+  filter(party == "Democrat" & county == "Shelby")
+```
+2.3 Filtrar votos para el estado de Alabama y que la cantidad de votos sea mayor a
+15000.
+```{r}
+dataset_results %>%
+  filter(state == "Alabama" & votes > 15000)
+```
+3. Utilice la función select y arrange para el siguiente filtrado:
+3.1 Filtrar votos para el estado de Texas y el condado Denton, seleccionando
+    únicamente las columnas party, candidate, votes, luego ordene de forma
+    descendente por la columna votes.
+    
+```{r}
+library(dplyr)
+dataset_results %>%
+  filter(county == "Texas" | county =="Denton") %>%
+  select(party, candidate, votes) %>%
+  arrange(desc(votes))
+```
+4. Utilice el verbo mutate y arrange para el siguiente filtrado:
+4.1 Filtrar por el partido Republicano, que el candidato sea Ted Cruz en el estado de
+    Alaska, luego agregue una columna que se llame vote_count que sea la división de
+    votes por fraction_votes (votes/fraction_votes), finalmente ordene de forma
+    descendente por vote_count.
+    
+```{r}
+library(dplyr)
+dataset_results %>%
+  filter(party == "Republican" & candidate == "Ted Cruz" & state == "Alaska" ) %>%
+  mutate(vote_count = votes/fraction_votes) %>%
+  arrange(desc(vote_count))
+```
+
