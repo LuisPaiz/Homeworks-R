@@ -1,0 +1,85 @@
+TAREA 4
+ESTUDIANTE: LUIS FERNANDO PAIZ VIRULA
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+diamonds <- read_csv('diamonds.csv')
+glimpse(diamonds)
+diamonds
+```
+
+1. DISPERSIÓN
+```{r}
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point()
+
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) +
+  geom_point()
+```
+2. HISTOGRAMA
+```{r}
+ggplot(diamonds, aes(x=price)) +
+  geom_histogram(bins=40)
+
+ggplot(diamonds, aes(x=price)) +
+  geom_histogram(bins=40) +
+  scale_x_log10()
+```
+3. BOXPLOTS
+```{r}
+ggplot(diamonds, aes(x=cut, y=price)) +
+  geom_boxplot()+
+  scale_y_log10()
+
+ggplot(diamonds, aes(x=cut, y=price, fill = cut)) +
+  geom_boxplot()+
+  scale_y_log10()
+```
+
+4. FACETING
+```{r}
+filtered_price <- diamonds %>%
+  filter(price > 1000 , cut %in% c("Good","Ideal","Premium"))
+```
+CONSTRUCCION DE GRAFICO DE BARRAS
+```{r}
+ggplot(filtered_price, aes(x=cut, y=depth)) +
+  geom_col()
+```
+FACETING
+```{r}
+ggplot(filtered_price, aes(x=cut, y=depth)) +
+  geom_col()+
+  facet_wrap(~ clarity)
+
+ggplot(filtered_price, aes(x=cut, y=depth, fill=clarity)) +
+  geom_col()+
+  facet_wrap(~ clarity)
+```
+GROUPING AND SUMMARIZING
+1
+```{r}
+median_dimension_diamonds <- diamonds %>%
+  group_by(cut) %>%
+  summarize(mediaX = median(x), mediaY = median(y), mediaZ = median(z))
+  print(median_dimension_diamonds)
+```
+
+2
+```{r}
+cut_premium <- diamonds %>%
+  filter(cut=="Premium") %>%
+  group_by(clarity) %>%
+  summarize(minPrice = min(price), maxPrice = max(price)) %>%
+  print(cut_premium)
+```
+
+3
+```{r}
+ggplot(cut_premium, aes(x=clarity, y=maxPrice, fill=clarity)) +
+  geom_col()
+```
+
+
+
